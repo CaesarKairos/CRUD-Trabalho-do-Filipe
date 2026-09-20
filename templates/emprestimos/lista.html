@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Empréstimos{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">LIVROS EM MOVIMENTO</span><h1>Empréstimos<span class="coral-text">.</span></h1><p>Acompanhe as leituras em andamento e registre as devoluções.</p></div><a class="button coral" href="{{ url_for('emprestimo_formulario') }}">+ Novo empréstimo</a></div>
+<section class="panel"><div class="panel-heading"><h2>Empréstimos ativos</h2><span class="count">{{ emprestimos|length }} ativo(s)</span></div><div class="table-wrap"><table><thead><tr><th>Livro</th><th>Aluno</th><th>Empréstimo</th><th>Devolução prevista</th><th>Status</th><th>Ação</th></tr></thead><tbody>
+{% for item in emprestimos %}<tr><td class="strong">{{ item.titulo }}</td><td>{{ item.nome }}</td><td>{{ item.data_emprestimo|data_br }}</td><td>{{ item.data_devolucao_prevista|data_br }}</td><td><span class="badge yellow">Emprestado</span></td><td><form method="post" action="{{ url_for('emprestimo_devolver', id=item.id) }}"><button class="button small teal">Registrar devolução</button></form></td></tr>
+{% else %}<tr><td colspan="6" class="empty">Nenhum empréstimo ativo. Todos os livros emprestados já voltaram!</td></tr>{% endfor %}
+</tbody></table></div></section><p class="below-note">Procurando uma leitura anterior? <a class="text-link" href="{{ url_for('historico') }}">Consulte o histórico →</a></p>
+{% endblock %}

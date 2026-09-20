@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Editar aluno' if editando else 'Cadastrar aluno' }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('alunos') }}">← Voltar para alunos</a>
+<div class="page-heading"><div><span class="eyebrow">NOSSA COMUNIDADE</span><h1>{{ 'Editar aluno' if editando else 'Cadastrar aluno' }}<span class="coral-text">.</span></h1></div></div>
+<form method="post" class="panel form-panel"><p class="form-hint">Todos os campos são obrigatórios.</p>
+<label for="nome">Nome completo</label><input id="nome" name="nome" value="{{ aluno.nome|default('') }}" required autocomplete="name">
+<div class="form-grid"><div><label for="matricula">Matrícula</label><input id="matricula" name="matricula" value="{{ aluno.matricula|default('') }}" required></div><div><label for="turma">Turma</label><input id="turma" name="turma" value="{{ aluno.turma|default('') }}" placeholder="Ex.: 2º B" required></div></div>
+<div class="actions form-actions"><button class="button purple">Salvar aluno</button><a class="button white" href="{{ url_for('alunos') }}">Cancelar</a></div></form>
+{% endblock %}

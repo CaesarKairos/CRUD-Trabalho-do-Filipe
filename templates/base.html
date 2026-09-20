@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Início{% endblock %} · Biblioteca Escolar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<header class="site-header">
+    <div class="header-inner">
+        <a class="brand" href="{{ url_for('index') }}"><span class="brand-icon" aria-hidden="true">B.</span><span>Biblioteca<br>Escolar</span></a>
+        <nav aria-label="Navegação principal">
+            {% for endpoint, label in [('index', 'Início'), ('livros', 'Livros'), ('alunos', 'Alunos'), ('emprestimos', 'Empréstimos'), ('historico', 'Histórico')] %}
+            {% set ativo = request.endpoint == endpoint or (endpoint == 'livros' and request.endpoint == 'livro_formulario') or (endpoint == 'alunos' and request.endpoint == 'aluno_formulario') or (endpoint == 'emprestimos' and request.endpoint == 'emprestimo_formulario') %}
+            <a href="{{ url_for(endpoint) }}" class="nav-link {{ 'active' if ativo }}" {% if ativo %}aria-current="page"{% endif %}>{{ label }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+</header>
+<main id="conteudo" class="container">
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+        {% for categoria, mensagem in mensagens %}
+        <div class="flash {{ categoria }}" role="{{ 'alert' if categoria == 'erro' else 'status' }}">{{ mensagem }}</div>
+        {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</main>
+<footer class="site-footer"><span>Biblioteca Escolar</span><span>Um livro. Muitas possibilidades.</span></footer>
+</body>
+</html>

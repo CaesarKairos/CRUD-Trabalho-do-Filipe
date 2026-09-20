@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Novo empréstimo{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('emprestimos') }}">← Voltar para empréstimos</a>
+<div class="page-heading"><div><span class="eyebrow">COMECE UMA NOVA LEITURA</span><h1>Novo empréstimo<span class="coral-text">.</span></h1></div></div>
+{% if not alunos %}<div class="flash erro">Cadastre um aluno para registrar um empréstimo. <a href="{{ url_for('aluno_formulario') }}">Cadastrar aluno</a></div>{% endif %}
+{% if not livros %}<div class="flash erro">Não há livros disponíveis. Registre uma devolução ou <a href="{{ url_for('livro_formulario') }}">cadastre um livro</a>.</div>{% endif %}
+<form method="post" class="panel form-panel"><p class="form-hint">Todos os campos são obrigatórios. Apenas livros disponíveis aparecem na lista.</p>
+<label for="aluno_id">Aluno</label><select id="aluno_id" name="aluno_id" required><option value="">Selecione um aluno</option>{% for aluno in alunos %}<option value="{{ aluno.id }}" {{ 'selected' if dados.aluno_id|default('') == aluno.id|string }}>{{ aluno.nome }} · {{ aluno.matricula }} · {{ aluno.turma }}</option>{% endfor %}</select>
+<label for="livro_id">Livro disponível</label><select id="livro_id" name="livro_id" required><option value="">Selecione um livro</option>{% for livro in livros %}<option value="{{ livro.id }}" {{ 'selected' if dados.livro_id|default('') == livro.id|string }}>{{ livro.titulo }} · {{ livro.autor }}</option>{% endfor %}</select>
+<div class="form-grid"><div><label for="data_emprestimo">Data do empréstimo</label><input type="date" id="data_emprestimo" name="data_emprestimo" max="{{ hoje }}" value="{{ dados.data_emprestimo }}" required></div><div><label for="data_devolucao_prevista">Devolução prevista</label><input type="date" id="data_devolucao_prevista" name="data_devolucao_prevista" value="{{ dados.data_devolucao_prevista }}" required></div></div>
+<div class="actions form-actions"><button class="button coral" {% if not alunos or not livros %}disabled{% endif %}>Registrar empréstimo</button><a class="button white" href="{{ url_for('emprestimos') }}">Cancelar</a></div></form>
+{% endblock %}

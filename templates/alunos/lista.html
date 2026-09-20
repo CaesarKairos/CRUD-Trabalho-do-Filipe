@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Alunos{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">NOSSA COMUNIDADE</span><h1>Alunos<span class="coral-text">.</span></h1><p>Quem faz parte dessa história.</p></div><a class="button purple" href="{{ url_for('aluno_formulario') }}">+ Cadastrar aluno</a></div>
+<form class="search-bar" method="get"><div class="search-field"><label for="q">Pesquisar por nome ou matrícula</label><input id="q" name="q" value="{{ q }}" placeholder="Encontre um aluno"></div><button class="button yellow">Pesquisar</button><a class="text-link" href="{{ url_for('alunos') }}">Limpar</a></form>
+<section class="panel"><div class="panel-heading"><h2>Alunos cadastrados</h2><span class="count">{{ alunos|length }} resultado(s)</span></div><div class="table-wrap"><table><thead><tr><th>Nome</th><th>Matrícula</th><th>Turma</th><th>Ações</th></tr></thead><tbody>
+{% for aluno in alunos %}<tr><td class="strong">{{ aluno.nome }}</td><td>{{ aluno.matricula }}</td><td>{{ aluno.turma }}</td><td><div class="row-actions"><a class="button small white" href="{{ url_for('aluno_formulario', id=aluno.id) }}" aria-label="Editar {{ aluno.nome }}">Editar</a><form method="post" action="{{ url_for('aluno_excluir', id=aluno.id) }}" data-confirm="Deseja realmente excluir este aluno?"><button class="button small coral" aria-label="Excluir {{ aluno.nome }}">Excluir</button></form></div></td></tr>
+{% else %}<tr><td colspan="4" class="empty">Nenhum aluno encontrado. Cadastre um aluno ou ajuste a pesquisa.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

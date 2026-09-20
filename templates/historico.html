@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Histórico{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">CADA LEITURA CONTA</span><h1>Histórico<span class="coral-text">.</span></h1><p>Todos os empréstimos, das leituras em andamento às já concluídas.</p></div></div>
+<form method="get" class="search-bar"><div class="search-field"><label for="q">Pesquisar por aluno ou livro</label><input id="q" name="q" value="{{ q }}" placeholder="Encontre uma leitura"></div><button class="button yellow">Pesquisar</button><a class="text-link" href="{{ url_for('historico') }}">Limpar</a></form>
+<section class="panel"><div class="panel-heading"><h2>Registro de leituras</h2><span class="count">{{ emprestimos|length }} resultado(s)</span></div><div class="table-wrap"><table><thead><tr><th>Aluno</th><th>Livro</th><th>Empréstimo</th><th>Devolução prevista</th><th>Devolução realizada</th><th>Status</th></tr></thead><tbody>
+{% for item in emprestimos %}<tr><td>{{ item.nome }}</td><td class="strong">{{ item.titulo }}</td><td>{{ item.data_emprestimo|data_br }}</td><td>{{ item.data_devolucao_prevista|data_br }}</td><td>{{ item.data_devolucao|data_br }}</td><td><span class="badge {{ 'teal' if item.status == 'Devolvido' else 'yellow' }}">{{ item.status }}</span></td></tr>
+{% else %}<tr><td colspan="6" class="empty">Nenhum empréstimo encontrado. Ajuste a pesquisa ou registre o primeiro empréstimo.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

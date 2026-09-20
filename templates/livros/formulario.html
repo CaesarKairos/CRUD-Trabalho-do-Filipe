@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Editar livro' if editando else 'Cadastrar livro' }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('livros') }}">← Voltar para livros</a>
+<div class="page-heading"><div><span class="eyebrow">ESTANTE ABERTA</span><h1>{{ 'Editar livro' if editando else 'Cadastrar livro' }}<span class="coral-text">.</span></h1></div></div>
+<form method="post" class="panel form-panel"><p class="form-hint">Título e autor são obrigatórios.</p>
+<label for="titulo">Título *</label><input id="titulo" name="titulo" value="{{ livro.titulo|default('') }}" required>
+<label for="autor">Autor *</label><input id="autor" name="autor" value="{{ livro.autor|default('') }}" required>
+<div class="form-grid"><div><label for="isbn">ISBN (opcional)</label><input id="isbn" name="isbn" value="{{ livro.isbn|default('', true) }}"></div><div><label for="ano_publicacao">Ano de publicação (opcional)</label><input type="number" min="1" max="{{ ano_atual }}" id="ano_publicacao" name="ano_publicacao" value="{{ livro.ano_publicacao|default('', true) }}"></div></div>
+<div class="actions form-actions"><button class="button yellow">Salvar livro</button><a class="button white" href="{{ url_for('livros') }}">Cancelar</a></div></form>
+{% endblock %}
